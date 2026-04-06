@@ -18,6 +18,8 @@ VSCode + MSYS2 + vcpkg 기반 OpenGL 실습 프로젝트
 
 ## 사전 설치 항목
 
+> **C/C++ 컴파일러만 사용할 경우 (CMake 없이):** 1번만 설치하면 됩니다. 단, 프로젝트 루트의 `CMakeLists.txt`를 삭제해야 VSCode가 CMake 프로젝트로 인식하지 않습니다.
+
 ### 1. MSYS2
 - [msys2.org](https://www.msys2.org) 에서 설치
 - **MSYS2 UCRT64** 터미널에서 아래 명령어 실행:
