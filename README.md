@@ -37,12 +37,22 @@ C:\msys64\ucrt64\bin
 ```
 
 ### 2. vcpkg
+PowerShell:
 ```powershell
 mkdir -Force C:\Dev
 cd C:\Dev
 git clone https://github.com/microsoft/vcpkg vcpkg
 cd vcpkg
 .\bootstrap-vcpkg.bat
+```
+
+CMD:
+```cmd
+mkdir C:\Dev
+cd C:\Dev
+git clone https://github.com/microsoft/vcpkg vcpkg
+cd vcpkg
+bootstrap-vcpkg.bat
 ```
 
 - 라이브러리 설치:
