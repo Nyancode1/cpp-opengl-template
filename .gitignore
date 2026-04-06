@@ -1,0 +1,11 @@
+# Build artifacts
+build/
+out/
+*.exe
+
+# vcpkg installed files
+installed/
+
+# VSCode/VS stuff
+vscode/
+.vs/

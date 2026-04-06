@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build: single-file (g++)",
+      "type": "cppbuild",
+      "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
+      "args": [
+        "-DFMT_HEADER_ONLY",
+        "-g",
+        "${file}",
+        "-o",
+        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+      ],
+      "options": { "cwd": "${fileDirname}" },
+      "problemMatcher": ["$gcc"],
+      "group": { "kind": "build", "isDefault": false },
+      "detail": "Build current file with g++"
+    },
+    {
+      "label": "CMake: build (ninja)",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "${workspaceFolder}/build",
+        "--config",
+        "Release"
+      ],
+      "dependsOn": ["CMake: configure"],
+      "group": { "kind": "build", "isDefault": false }
+    },
+    {
+      "label": "CMake: configure",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-S", "${workspaceFolder}",
+        "-B", "${workspaceFolder}/build",
+        "-DCMAKE_TOOLCHAIN_FILE=C:/dev/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "-DVCPKG_TARGET_TRIPLET=x64-mingw-dynamic",
+        "-DVCPKG_HOST_TRIPLET=x64-mingw-dynamic",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+      ]
+    },
+    {
+      "label": "CMake: build & run",
+      "type": "shell",
+      "command": "${workspaceFolder}/build/demo.exe",
+      "options": { "cwd": "${workspaceFolder}/build" },
+      "dependsOn": ["CMake: build (ninja)"],
+      "group": { "kind": "build", "isDefault": false },
+      "detail": "Build with CMake and then run demo.exe"
+    }
+  ]
+}
