@@ -21,20 +21,53 @@ VSCode + MSYS2 + vcpkg 기반 OpenGL 실습 프로젝트
 > **C/C++ 컴파일러만 사용할 경우 (CMake 없이):** 1번만 설치하면 됩니다. 단, 프로젝트 루트의 `CMakeLists.txt`를 삭제해야 VSCode가 CMake 프로젝트로 인식하지 않습니다.
 
 ### 1. MSYS2
-- [msys2.org](https://www.msys2.org) 에서 설치
-- **MSYS2 UCRT64** 터미널에서 아래 명령어 실행:
+
+#### 1-1. 설치 파일 다운로드
+
+[msys2.org](https://www.msys2.org) 접속 → 상단 **Download** 버튼 클릭 → `msys2-x86_64-XXXXXXXX.exe` 다운로드
+
+설치 경로는 기본값 `C:\msys64` 그대로 사용.
+
+#### 1-2. 컴파일러 설치
+
+설치 완료 후 시작 메뉴에서 **MSYS2 UCRT64** 실행 (MSYS2 MSYS 아님, 반드시 UCRT64)
+
+터미널에서 순서대로 입력:
 
 ```bash
 pacman -Syu
+```
+
+> 중간에 `proceed with installation? [Y/n]` 나오면 `Y` 입력. 창이 닫히면 다시 MSYS2 UCRT64 열기.
+
+```bash
 pacman -S mingw-w64-ucrt-x86_64-toolchain
 pacman -S mingw-w64-ucrt-x86_64-cmake
 pacman -S mingw-w64-ucrt-x86_64-ninja
 ```
 
-- 환경변수 PATH에 추가:
+> `Enter a selection (default=all):` 나오면 그냥 Enter. 설치 확인 메시지에 `Y` 입력.
+
+#### 1-3. 환경변수 PATH 등록
+
+1. `Windows 키 + R` → `sysdm.cpl` 입력 → 확인
+2. **고급** 탭 → **환경 변수** 버튼 클릭
+3. 아래쪽 **시스템 변수** 목록에서 `Path` 선택 → **편집** 클릭
+4. **새로 만들기** 클릭 → 아래 경로 입력:
+   ```
+   C:\msys64\ucrt64\bin
+   ```
+5. 확인 → 확인 → 확인
+
+> 등록 후 열려있는 터미널/VSCode 전부 재시작 필요.
+
+터미널(PowerShell 또는 cmd)에서 정상 설치 확인:
+```powershell
+g++ --version
+gdb --version
 ```
-C:\msys64\ucrt64\bin
-```
+
+버전 번호가 출력되면 정상.
 
 ### 2. vcpkg
 PowerShell:
@@ -143,14 +176,12 @@ set(CURRENT Lab1)  # Lab2, Lab3 ... 로 변경
         "command": "workbench.action.tasks.test"
     },
     {
-        "key": "f5",
-        "command": "workbench.action.debug.run",
-        "when": "debuggersAvailable && debugState != 'initializing'"
+        "key": "ctrl+shift+oem_2",
+        "command": "C_Cpp.SelectIntelliSenseConfiguration"
     },
     {
-        "key": "ctrl+f5",
-        "command": "-workbench.action.debug.run",
-        "when": "debuggersAvailable && debugState != 'initializing'"
+        "key": "f5",
+        "command": "workbench.action.tasks.test"
     },
     {
         "key": "f5",
@@ -161,6 +192,16 @@ set(CURRENT Lab1)  # Lab2, Lab3 ... 로 변경
         "key": "ctrl+f5",
         "command": "-cmake.launchTarget",
         "when": "cmake:enableFullFeatureSet && !cmake:hideDebugCommand && !inDebugMode"
+    },
+    {
+        "key": "ctrl+f5",
+        "command": "debug.openView",
+        "when": "!debuggersAvailable"
+    },
+    {
+        "key": "ctrl+f5",
+        "command": "-debug.openView",
+        "when": "!debuggersAvailable"
     },
     {
         "key": "ctrl+f5",
@@ -181,11 +222,21 @@ set(CURRENT Lab1)  # Lab2, Lab3 ... 로 변경
         "key": "f5",
         "command": "-workbench.action.debug.continue",
         "when": "debugState == 'stopped'"
+    },
+    {
+        "key": "f5",
+        "command": "-debug.openView",
+        "when": "!debuggersAvailable"
+    },
+    {
+        "key": "f5",
+        "command": "debug.openView",
+        "when": "!debuggersAvailable"
     }
 ]
 ```
 
-> F5 = 디버거 없이 직접 실행, Ctrl+F5 = 디버거 실행
+> F5 = CMake 있을 때 cmake 실행 / 없을 때 단일파일 실행, Ctrl+F5 = 디버거 실행
 
 ---
 
